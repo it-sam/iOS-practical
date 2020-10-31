@@ -24,7 +24,7 @@ class AppListViewModel: NSObject {
   }
   
   func appName(for indexpath: IndexPath) -> String {
-    return self.model.appInfoList[indexpath.row].title!
+    return self.model.appInfoList[indexpath.row].title ?? ""
   }
   
   func appImage(for indexpath: IndexPath) -> Data? {
@@ -32,7 +32,8 @@ class AppListViewModel: NSObject {
   }
   
   func appDescription(for indexpath: IndexPath) -> String {
-    return "Created by: \(String(describing: self.model.appInfoList[indexpath.row].artistName!)) \nCopyRight: \(String(describing: self.model.appInfoList[indexpath.row].copyRight!))"
+    let appInfo = self.model.appInfoList[indexpath.row]
+    return "Created by: \(String(describing: appInfo.artistName ?? "")) \nCopyRight: \(String(describing: appInfo.copyRight ?? ""))"
   }
   
   func requestImage(for indexpath: IndexPath,

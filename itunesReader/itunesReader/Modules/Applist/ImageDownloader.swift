@@ -18,14 +18,19 @@ class ImageDownloader: Operation {
   }
   // overriding of methods and variables
   public override func main() {
-    let url = URL(string: self.imageRecord.imageUrl!)
-    do {
-      let data = try Data(contentsOf: url!)
-      self.imageRecord.imageData = data
-      self.imageRecord.imageStatus = .Downloaded
-    } catch {
-      self.imageRecord.imageStatus = .failed
-      print("Fail to download image")
+    if let imageUrl = self.imageRecord.imageUrl,
+       let url = URL(string: imageUrl) {
+        do {
+          let data = try Data(contentsOf: url)
+          self.imageRecord.imageData = data
+          self.imageRecord.imageStatus = .Downloaded
+        } catch {
+          self.imageRecord.imageStatus = .failed
+          print("Fail to download image")
+        }
+    } else {
+        self.imageRecord.imageStatus = .failed
+        print("Fail to download image")
     }
   }
 }

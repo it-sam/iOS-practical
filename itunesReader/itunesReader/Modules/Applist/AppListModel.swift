@@ -20,10 +20,10 @@ class AppListModel: NSObject {
   func requestReaderData(_ result: @escaping (Result<Bool>)-> Void) {
     let readerRequest = ReaderRequest()
     request.makePostRequest(readerRequest) { (requestResult) in
-      if requestResult.isSuccess {
-        JsonParser.parse(requestResult.value as! Data, { (res: Result<AppListContainer>) in
-          if res.isSuccess {
-            self.appInfoList = (res.value?.appList)!
+      if requestResult.isSuccess, let data = requestResult.value as? Data {
+        JsonParser.parse(data, { (res: Result<AppListContainer>) in
+          if res.isSuccess, let appList = res.value?.appList {
+            self.appInfoList = appList
             result(Result.success(true))
           } else {
             result(Result.failure(res.error!))

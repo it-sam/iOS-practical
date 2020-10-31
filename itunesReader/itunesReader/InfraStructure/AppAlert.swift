@@ -14,7 +14,7 @@ class AppAlert {
     // create the alert
     let alert = UIAlertController(title: title,
                                   message: message,
-                                  preferredStyle: UIAlertControllerStyle.alert)
+                                  preferredStyle: UIAlertController.Style.alert)
     return alert
   }
   
