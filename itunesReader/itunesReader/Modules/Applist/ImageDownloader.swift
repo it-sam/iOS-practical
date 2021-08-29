@@ -7,30 +7,32 @@
 //
 
 import Foundation
+typealias onComplete = (IndexPath, photoStatus, Data? ) -> Void
 // subclass use of Operation
 class ImageDownloader: Operation {
-  var imageRecord: AppInfo
-  // overriding of methods and variables
-  override var isAsynchronous: Bool { get { return true }}
-  
-  public init(_ record: AppInfo) {
-    self.imageRecord = record
-  }
-  // overriding of methods and variables
-  public override func main() {
-    if let imageUrl = self.imageRecord.imageUrl,
-       let url = URL(string: imageUrl) {
-        do {
-          let data = try Data(contentsOf: url)
-          self.imageRecord.imageData = data
-          self.imageRecord.imageStatus = .Downloaded
-        } catch {
-          self.imageRecord.imageStatus = .failed
-          print("Fail to download image")
-        }
-    } else {
-        self.imageRecord.imageStatus = .failed
-        print("Fail to download image")
+    var imageUrl: String?
+    var onFinish: onComplete
+    var indexPath: IndexPath
+    // overriding of methods and variables
+    override var isAsynchronous: Bool { get { return true }}
+    public init(_ url: String?, indexPath: IndexPath, onComplete:  @escaping onComplete) {
+        self.imageUrl = url
+        self.indexPath = indexPath
+        self.onFinish = onComplete
     }
-  }
+    
+    // overriding of methods and variables
+    public override func main() {
+        if let imageUrl = self.imageUrl,
+           let url = URL(string: imageUrl) {
+            do {
+                let data = try Data(contentsOf: url)
+                onFinish(indexPath, .downloaded, data)
+            } catch {
+                onFinish(indexPath, .failed, nil)
+            }
+        } else {
+            onFinish(indexPath, .failed, nil)
+        }
+    }
 }
