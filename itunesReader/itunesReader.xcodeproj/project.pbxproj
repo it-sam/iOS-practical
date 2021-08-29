@@ -28,6 +28,8 @@
 		52FA59A720A8582B00800471 /* AppListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FA59A620A8582B00800471 /* AppListViewModel.swift */; };
 		52FA59A920A8583800800471 /* AppListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FA59A820A8583800800471 /* AppListModel.swift */; };
 		52FA59AB20A8584800800471 /* AppListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FA59AA20A8584800800471 /* AppListRequest.swift */; };
+		FF2B9F4726DA1048006C4335 /* CellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2B9F4626DA1048006C4335 /* CellViewModel.swift */; };
+		FF2B9F4B26DA318C006C4335 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2B9F4A26DA318C006C4335 /* Array+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,8 @@
 		52FA59A620A8582B00800471 /* AppListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListViewModel.swift; sourceTree = "<group>"; };
 		52FA59A820A8583800800471 /* AppListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListModel.swift; sourceTree = "<group>"; };
 		52FA59AA20A8584800800471 /* AppListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListRequest.swift; sourceTree = "<group>"; };
+		FF2B9F4626DA1048006C4335 /* CellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewModel.swift; sourceTree = "<group>"; };
+		FF2B9F4A26DA318C006C4335 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +146,7 @@
 		52FA599920A8554C00800471 /* InfraStructure */ = {
 			isa = PBXGroup;
 			children = (
+				FF2B9F4926DA3176006C4335 /* Extension */,
 				52FA599C20A856E100800471 /* IRequest.swift */,
 				52FA599E20A856F100800471 /* AppError.swift */,
 				52FA59A020A8571A00800471 /* RequestHandler.swift */,
@@ -163,14 +168,31 @@
 		52FA599B20A8559000800471 /* Applist */ = {
 			isa = PBXGroup;
 			children = (
+				FF2B9F4826DA2C97006C4335 /* Cell */,
 				52B5519F209E989E00555273 /* ViewController.swift */,
-				523B8E3F20A055C900FE570A /* AppTableViewCell.swift */,
 				52FA59A620A8582B00800471 /* AppListViewModel.swift */,
 				52FA59A820A8583800800471 /* AppListModel.swift */,
 				52FA59AA20A8584800800471 /* AppListRequest.swift */,
 				529C14A620AEF9B90079DE7A /* ImageDownloader.swift */,
 			);
 			path = Applist;
+			sourceTree = "<group>";
+		};
+		FF2B9F4826DA2C97006C4335 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				523B8E3F20A055C900FE570A /* AppTableViewCell.swift */,
+				FF2B9F4626DA1048006C4335 /* CellViewModel.swift */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		FF2B9F4926DA3176006C4335 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FF2B9F4A26DA318C006C4335 /* Array+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,6 +302,7 @@
 				52B551A0209E989E00555273 /* ViewController.swift in Sources */,
 				529C14A720AEF9BA0079DE7A /* ImageDownloader.swift in Sources */,
 				521A0DE120B1BAA000304004 /* AppAlert.swift in Sources */,
+				FF2B9F4B26DA318C006C4335 /* Array+Extension.swift in Sources */,
 				52B5519E209E989E00555273 /* AppDelegate.swift in Sources */,
 				52FA59A120A8571A00800471 /* RequestHandler.swift in Sources */,
 				52FA59A920A8583800800471 /* AppListModel.swift in Sources */,
@@ -287,6 +310,7 @@
 				523E2CC120A910C2006909C1 /* AppListContainer.swift in Sources */,
 				523B8E4020A055C900FE570A /* AppTableViewCell.swift in Sources */,
 				529C14A520AECBB80079DE7A /* Constant.swift in Sources */,
+				FF2B9F4726DA1048006C4335 /* CellViewModel.swift in Sources */,
 				52FA59A320A8573000800471 /* JsonParser.swift in Sources */,
 				52FA59A720A8582B00800471 /* AppListViewModel.swift in Sources */,
 				52FA59A520A8574200800471 /* Result.swift in Sources */,
@@ -386,12 +410,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -441,11 +466,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
