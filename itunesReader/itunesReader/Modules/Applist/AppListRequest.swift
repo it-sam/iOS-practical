@@ -9,9 +9,11 @@
 import Foundation
 
 class ReaderRequest: IRequest {
+    
   func urlPath() -> String {
-    return "https://rss.itunes.apple.com/api/v1/us/ios-apps/top-free/all/25/explicit.json"
+    return "https://www.dropbox.com/s/c3f798yq4po9tq9/itunesData.json?dl=1"
   }
+    
   func urlContent() -> [String: Any]? {
     return nil
   }
