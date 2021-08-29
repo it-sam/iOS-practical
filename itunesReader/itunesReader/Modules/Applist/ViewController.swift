@@ -10,7 +10,6 @@ import UIKit
 
 
 class ViewController: UIViewController {
-  let cellId = "AppTableCell"
   let viewModel = AppListViewModel()
   @IBOutlet weak var appListTable: UITableView!
   
@@ -22,11 +21,13 @@ class ViewController: UIViewController {
     self.title = "App List"
     self.requestData()
   }
+    
   func requestData() {
     // use of closures
     viewModel.requestData(success: reloadTable,
                           failure: showError(_:_:))
   }
+    
   func reloadTable() {
     // DispatchQueue async use
     DispatchQueue.main.async {
@@ -34,16 +35,18 @@ class ViewController: UIViewController {
       self.appListTable.reloadData()
     }
     DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 30)) {
-      // call method after 30 nenoseconds time
+      // call method after 30 nanoseconds time
       self.startDownloadingImage()
     }
   }
   
   func showError(_ title: String,_ message: String) {
-    var alert = AppAlert.Alert(title, message)
-    alert = AppAlert.addCancelButton(alert, "Ok")
-    alert = AppAlert.addOtherButton(alert, "Retry",requestData)
-    self.present(alert, animated: true, completion: nil)
+    DispatchQueue.main.async {
+        var alert = AppAlert.Alert(title, message)
+        alert = AppAlert.addCancelButton(alert, "Ok")
+        alert = AppAlert.addOtherButton(alert, "Retry",self.requestData)
+        self.present(alert, animated: true, completion: nil)
+    }
   }
   
   override func didReceiveMemoryWarning() {
@@ -52,54 +55,56 @@ class ViewController: UIViewController {
   }
   
 }
-// class extension
-extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+// tabview data source and delegate
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return viewModel.numberofRows()
+    return viewModel.numberOfRows()
   }
   
   func tableView(_ tableView: UITableView,
                  cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: cellId,
-                                             for: indexPath) as! AppTableViewCell
-    cell.appTitle.text = viewModel.appName(for: indexPath)
-    cell.loadingIndicator.startAnimating()
-    cell.appImage.image = nil
-    cell.layoutMargins = UIEdgeInsets.zero
-    cell.appDescription.text = viewModel.appDescription(for: indexPath)
-    
-    if let imageData = viewModel.appImage(for: indexPath) {
-     cell.setImage(imageData)
+    guard let model = self.viewModel.cellViewModel(for: indexPath) else {
+        return UITableViewCell ()
     }
+    let cell = tableView.dequeueReusableCell(withIdentifier: AppTableViewCell.identifier,
+                                             for: indexPath) as! AppTableViewCell
+    
+    cell.layoutMargins = UIEdgeInsets.zero
+    cell.updateWithModel(model: model)
+    
     return cell
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 100
   }
-  
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    viewModel.suspendOperatios()
-  }
-  
-  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    self.startDownloadingImage()
-  }
-  // lazy loading of images using Operation
-  func reloadTableCells(_ indexPaths: [IndexPath]) {
-    // DispatchQueue  async use
-    DispatchQueue.main.async {
-      self.appListTable.reloadRows(at:indexPaths,
-                                   with: .none)
+}
+// Scrollview delegate
+extension ViewController : UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+      viewModel.suspendOperatios()
     }
-  }
-  
-  func startDownloadingImage() {
-    if let pathsArray = appListTable.indexPathsForVisibleRows {
-      for indexPath in pathsArray {
-        viewModel.requestImage(for: indexPath, reloadTableCells(_:))
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+      self.startDownloadingImage()
+    }
+    // lazy loading of images using Operation
+    func reloadTableCells(_ indexPaths: [IndexPath]) {
+      // DispatchQueue  async use
+      DispatchQueue.main.async {
+        self.appListTable.reloadRows(at:indexPaths,
+                                     with: .none)
       }
     }
-  }
+}
+ // Internal functions
+extension ViewController {
+    private func startDownloadingImage() {
+      if let pathsArray = appListTable.indexPathsForVisibleRows {
+        for indexPath in pathsArray {
+          viewModel.requestImage(for: indexPath, reloadTableCells(_:))
+        }
+      }
+    }
 }
