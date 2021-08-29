@@ -8,7 +8,7 @@
 
 import Foundation
 
-//typealias responseHandler = (Any?, Error?) -> Void
+//typeAlias responseHandler = (Any?, Error?) -> Void
 
 // request handler - use of Url session
 class RequestHandler: NSObject {

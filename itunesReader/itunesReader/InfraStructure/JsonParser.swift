@@ -16,7 +16,7 @@ class JsonParser {
       let todo: T = try decoder.decode(T.self, from: data as Data)
       result(Result.success(todo))
     } catch {
-      let error = AppError.create("Json deserilization failed.")
+      let error = AppError.create("Json deserialisation failed.")
       result(Result.failure(error))
     }
   }

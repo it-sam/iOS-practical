@@ -6,10 +6,10 @@
 //  Copyright © 2018 FreeWare. All rights reserved.
 //
 
-import UIKit
+import Foundation
 // enum creation and use
 enum photoStatus {
-  case new, failed, Downloaded
+  case new, failed, downloaded
 }
 // decodable and decoder use
 class AppInfo: Decodable {
